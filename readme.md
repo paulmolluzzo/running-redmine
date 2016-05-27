@@ -24,3 +24,10 @@ This is a Chrome extension that adds keyboard shortcuts to Redmine apps for quic
 ### Project Actions
 - Create new Project: <kbd>n</kbd> <kbd>p</kbd>
 - Create new issue in current project: <kbd>n</kbd> <kbd>i</kbd>
+
+### Formatting
+- Bold: <kbd>command</kbd>+<kbd>b</kbd>
+- Underline: <kbd>command</kbd>+<kbd>u</kbd>
+- Italics: <kbd>command</kbd>+<kbd>i</kbd>
+- External link: <kbd>command</kbd>+<kbd>k</kbd>
+- Pre block: <kbd>command</kbd>+<kbd>shift</kbd>+<kbd>p</kbd>
