@@ -4,6 +4,7 @@ const $ = document.querySelector.bind(document);
 const isRedmine = () => $('meta[content="Redmine"]') || $('a[href*="http://www.redmine.org/"]') || $('a[href*="http://www.redmine.org/guide"]');
 const isProject = /\/projects\/\w+/.test(window.location.pathname);
 const [, , currentProject] = window.location.pathname.split('/');
+const isFormTextarea = target => target.type === 'textarea' && /wiki-edit/.test(target.className);
 
 function registerShortcuts() {
   // Global navigation items
@@ -82,6 +83,53 @@ function registerShortcuts() {
       window.location.href = `/projects/${currentProject}/issues/new`;
     }
   });
+
+  // Formatting
+  // bold
+  Mousetrap.bindGlobal('command+b', e => {
+    if (isFormTextarea(e.target)) {
+      insertStyleSnippet(e.target, '**')
+    }
+  });
+
+  // underline
+  Mousetrap.bindGlobal('command+u', e => {
+    if (isFormTextarea(e.target)) {
+      insertStyleSnippet(e.target, '++')
+    }
+  });
+
+  // italics
+  Mousetrap.bindGlobal('command+i', e => {
+    if (isFormTextarea(e.target)) {
+      insertStyleSnippet(e.target, '__')
+    }
+  });
+
+  // external link
+  Mousetrap.bindGlobal('command+k', e => {
+    if (isFormTextarea(e.target)) {
+      insertStyleSnippet(e.target, '[]()', -1)
+    }
+  });
+
+  // pre block
+  Mousetrap.bindGlobal('command+shift+p', e => {
+    if (isFormTextarea(e.target)) {
+      insertStyleSnippet(e.target, '<pre></pre>')
+    }
+  });
+}
+
+function insertStyleSnippet(el, snippet, positionShift = 0) {
+  const start = el.selectionStart;
+  const end = el.selectionEnd;
+  const text = el.value;
+  const before = text.substring(0, start);
+  const after  = text.substring(end, text.length);
+  el.value = (before + snippet + after);
+  el.selectionStart = el.selectionEnd = start + (snippet.length / 2) + positionShift;
+  el.focus();
 }
 
 function init() {
