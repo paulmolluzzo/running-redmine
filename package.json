@@ -1,0 +1,31 @@
+{
+  "name": "running-redmine",
+  "version": "0.0.1",
+  "description": "Redmine keyboard shortcuts",
+  "license": "MIT",
+  "repository": "https://github.com/paulmolluzzo/running-redmine",
+  "author": {
+    "name": "Paul Molluzzo",
+    "email": "paul@molluzzo.com",
+    "url": "paul.molluzzo.com"
+  },
+  "scripts": {
+    "test": "xo",
+    "release": "webstore upload --source=extension/ --extension-id=bfegcalbohnfdcgnacofccdjkakjallk --auto-publish"
+  },
+  "devDependencies": {
+    "chrome-webstore-upload-cli": "^1.0.0",
+    "xo": "*"
+  },
+  "xo": {
+    "esnext": true,
+    "space": true,
+    "envs": [
+      "node",
+      "browser"
+    ],
+     "ignores": [
+      "extension/vendor/**"
+    ]
+  }
+}
