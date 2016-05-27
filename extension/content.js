@@ -127,8 +127,14 @@ function insertStyleSnippet(el, snippet, positionShift = 0) {
   const text = el.value;
   const before = text.substring(0, start);
   const after = text.substring(end, text.length);
-  el.value = (before + snippet + after);
-  el.selectionStart = el.selectionEnd = start + (snippet.length / 2) + positionShift;
+  const selectedText = window.getSelection().toString();
+  const snippetCursorPosition = (snippet.length / 2) + positionShift;
+  const snippetBeginning = snippet.substring(0, snippetCursorPosition);
+  const snippetEnding = snippet.substring(snippetCursorPosition, snippet.length);
+
+  el.value = (before + snippetBeginning + selectedText + snippetEnding + after);
+  el.selectionStart = start + snippetBeginning.length;
+  el.selectionEnd = end + snippetBeginning.length;
   el.focus();
 }
 
