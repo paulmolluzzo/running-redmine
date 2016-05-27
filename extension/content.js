@@ -88,35 +88,35 @@ function registerShortcuts() {
   // bold
   Mousetrap.bindGlobal('command+b', e => {
     if (isFormTextarea(e.target)) {
-      insertStyleSnippet(e.target, '**')
+      insertStyleSnippet(e.target, '**');
     }
   });
 
   // underline
   Mousetrap.bindGlobal('command+u', e => {
     if (isFormTextarea(e.target)) {
-      insertStyleSnippet(e.target, '++')
+      insertStyleSnippet(e.target, '++');
     }
   });
 
   // italics
   Mousetrap.bindGlobal('command+i', e => {
     if (isFormTextarea(e.target)) {
-      insertStyleSnippet(e.target, '__')
+      insertStyleSnippet(e.target, '__');
     }
   });
 
   // external link
   Mousetrap.bindGlobal('command+k', e => {
     if (isFormTextarea(e.target)) {
-      insertStyleSnippet(e.target, '[]()', -1)
+      insertStyleSnippet(e.target, '[]()', -1);
     }
   });
 
   // pre block
   Mousetrap.bindGlobal('command+shift+p', e => {
     if (isFormTextarea(e.target)) {
-      insertStyleSnippet(e.target, '<pre></pre>')
+      insertStyleSnippet(e.target, '<pre></pre>');
     }
   });
 }
@@ -126,7 +126,7 @@ function insertStyleSnippet(el, snippet, positionShift = 0) {
   const end = el.selectionEnd;
   const text = el.value;
   const before = text.substring(0, start);
-  const after  = text.substring(end, text.length);
+  const after = text.substring(end, text.length);
   el.value = (before + snippet + after);
   el.selectionStart = el.selectionEnd = start + (snippet.length / 2) + positionShift;
   el.focus();
