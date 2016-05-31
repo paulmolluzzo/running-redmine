@@ -3,6 +3,7 @@
 const $ = document.querySelector.bind(document);
 const isRedmine = () => $('meta[content="Redmine"]') || $('a[href*="http://www.redmine.org/"]') || $('a[href*="http://www.redmine.org/guide"]');
 const isProject = /\/projects\/\w+/.test(window.location.pathname);
+const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
 const [, , currentProject] = window.location.pathname.split('/');
 const isFormTextarea = target => target.type === 'textarea' && /wiki-edit/.test(target.className);
 
@@ -87,6 +88,36 @@ function registerShortcuts() {
   Mousetrap.bind('n i', () => {
     if (isProject) {
       window.location.href = `/projects/${currentProject}/issues/new`;
+    }
+  });
+
+  // Issue actions
+  // edit issue
+  Mousetrap.bind('e', () => {
+    if (isIssue) {
+      $('.contextual a[href*="/edit"]').click();
+    }
+  });
+
+  // watch issue
+  Mousetrap.bind('w', () => {
+    if (isIssue) {
+      $('.contextual a[href*="/watch"]').click();
+    }
+  });
+
+  // copy issue to new issue
+  Mousetrap.bind('c', () => {
+    if (isIssue) {
+      console.log($('.contextual a[href*="/copy"]'));
+      $('.contextual a[href*="/copy"]').click();
+    }
+  });
+
+  // delete issue
+  Mousetrap.bind('d', () => {
+    if (isIssue) {
+      $('.contextual a[data-method="delete"]').click();
     }
   });
 
