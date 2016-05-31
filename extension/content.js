@@ -36,6 +36,12 @@ function registerShortcuts() {
     window.location.href = '/issues';
   });
 
+  // focus on search
+  Mousetrap.bind('/', e => {
+    $('form[action="/search"] input[type="text"]').focus();
+    e.preventDefault();
+  });
+
   // Project subnavigation
   Mousetrap.bind('p h', () => {
     if (isProject) {
