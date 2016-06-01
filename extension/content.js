@@ -50,6 +50,13 @@ function registerGlobalShortcuts() {
   Mousetrap.bindGlobal('ctrl+space', () => {
     toggleQuickShow();
   });
+
+  Mousetrap.bindGlobal('esc', () => {
+    // hide quick jump to project if shown
+    if ($('#quick-jump-container.show')) {
+      toggleQuickShow();
+    }
+  });
 }
 
 // Project-related items
