@@ -17,6 +17,7 @@ These shortcuts should work anywhere on your Redmine site:
 - Go to Issues: <kbd>g</kbd> <kbd>i</kbd>
 - Create new Project: <kbd>n</kbd> <kbd>p</kbd>
 - Search: <kbd>/</kbd>
+- Quick jump to Project: <kbd>control</kbd>+<kbd>Space</kbd>, then type the number next to the project you want
 
 ### Project Navigation
 
