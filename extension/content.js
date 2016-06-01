@@ -2,9 +2,6 @@
 /* globals Mousetrap */
 const $ = document.querySelector.bind(document);
 const isRedmine = () => $('meta[content="Redmine"]') || $('a[href*="http://www.redmine.org/"]') || $('a[href*="http://www.redmine.org/guide"]');
-const isProject = /\/projects\/\w+/.test(window.location.pathname);
-const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
-const [, , currentProject] = window.location.pathname.split('/');
 const isFormTextarea = target => target.type === 'textarea' && /wiki-edit/.test(target.className);
 
 // Global navigation items
@@ -52,7 +49,7 @@ function registerGlobalShortcuts() {
 
 // Project-related items
 // must be in a project
-function registerProjectShortcuts() {
+function registerProjectShortcuts(currentProject) {
   Mousetrap.bind('p h', () => {
     window.location.href = `/projects/${currentProject}`;
   });
@@ -163,10 +160,13 @@ function insertStyleSnippet(el, snippet, positionShift = 0) {
 
 document.addEventListener('DOMContentLoaded', () => {
   if (isRedmine()) {
+    const project = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-')[1];
+    const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
+
     registerGlobalShortcuts();
 
-    if (isProject) {
-      registerProjectShortcuts();
+    if (project) {
+      registerProjectShortcuts(project);
     }
 
     if (isIssue) {
