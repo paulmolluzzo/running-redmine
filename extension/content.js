@@ -45,6 +45,11 @@ function registerGlobalShortcuts() {
   Mousetrap.bind('n p', () => {
     window.location.href = `/projects/new`;
   });
+
+  // toggle quick show list for projects
+  Mousetrap.bindGlobal('ctrl+space', () => {
+    toggleQuickShow();
+  });
 }
 
 // Project-related items
@@ -166,13 +171,45 @@ function insertStyleSnippet(el, snippet, positionShift = 0) {
   el.focus();
 }
 
+function initQuickJump(projectList) {
+  const quickJumpContainer = document.createElement('div');
+  quickJumpContainer.id = 'quick-jump-container';
+
+  // create title for quick jump popover
+  const title = document.createElement('p');
+  title.innerHTML = 'Go to Project:';
+  quickJumpContainer.appendChild(title);
+
+  Array.from(projectList).forEach((el, index) => {
+    const projectLink = document.createElement('a');
+    projectLink.id = `projectLink-${index}`;
+    projectLink.href = el.value;
+    projectLink.innerHTML = `<p>(${index + 1}) ${el.innerHTML}</p>`;
+    quickJumpContainer.appendChild(projectLink);
+
+    // bind shortcuts for each project
+    Mousetrap.bind((index + 1).toString(), () => {
+      $(`#quick-jump-container.show #projectLink-${index}`).click();
+    });
+  });
+
+  $('body').appendChild(quickJumpContainer);
+}
+
+function toggleQuickShow() {
+  $('#quick-jump-container').classList.toggle('show');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   if (isRedmine()) {
     const isProject = /(project\-(\w+|\d+|\-)+)/.test($('body').className);
     const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
     const isNewIssue = /\/issues\/new$/.test(window.location.pathname.replace(/\/$/, ''));
+    const projectList = document.querySelectorAll('#project_quick_jump_box option[value*="/projects/"]');
 
     registerGlobalShortcuts();
+
+    initQuickJump(projectList);
 
     if (isProject) {
       const [, projectName] = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-');
