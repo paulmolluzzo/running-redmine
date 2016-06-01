@@ -168,14 +168,15 @@ function insertStyleSnippet(el, snippet, positionShift = 0) {
 
 document.addEventListener('DOMContentLoaded', () => {
   if (isRedmine()) {
-    const project = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-')[1];
+    const isProject = /(project\-(\w+|\d+|\-)+)/.test($('body').className);
     const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
     const isNewIssue = /\/issues\/new$/.test(window.location.pathname.replace(/\/$/, ''));
 
     registerGlobalShortcuts();
 
-    if (project) {
-      registerProjectShortcuts(project);
+    if (isProject) {
+      const projectName = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-')[1];
+      registerProjectShortcuts(projectName);
     }
 
     if (isIssue || isNewIssue) {
