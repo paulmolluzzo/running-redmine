@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerGlobalShortcuts();
 
     if (isProject) {
-      const projectName = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-')[1];
+      const [, projectName] = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-');
       registerProjectShortcuts(projectName);
     }
 
