@@ -7,8 +7,9 @@ const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''
 const [, , currentProject] = window.location.pathname.split('/');
 const isFormTextarea = target => target.type === 'textarea' && /wiki-edit/.test(target.className);
 
-function registerShortcuts() {
-  // Global navigation items
+// Global navigation items
+// can work from anywhere in Redmine
+function registerGlobalShortcuts() {
   Mousetrap.bind('g h', () => {
     window.location.href = '/';
   });
@@ -43,85 +44,70 @@ function registerShortcuts() {
     e.preventDefault();
   });
 
-  // Project subnavigation
-  Mousetrap.bind('p h', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}`;
-    }
-  });
-
-  Mousetrap.bind('p a', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}/activity`;
-    }
-  });
-
-  Mousetrap.bind('p i', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}/issues`;
-    }
-  });
-
-  Mousetrap.bind('p n', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}/news`;
-    }
-  });
-
-  Mousetrap.bind('p w', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}/wiki`;
-    }
-  });
-
-  Mousetrap.bind('p s', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}/settings`;
-    }
-  });
-
-  // Project actions
+  // create new project
   Mousetrap.bind('n p', () => {
     window.location.href = `/projects/new`;
   });
+}
 
-  Mousetrap.bind('n i', () => {
-    if (isProject) {
-      window.location.href = `/projects/${currentProject}/issues/new`;
-    }
+// Project-related items
+// must be in a project
+function registerProjectShortcuts() {
+  Mousetrap.bind('p h', () => {
+    window.location.href = `/projects/${currentProject}`;
   });
 
-  // Issue actions
+  Mousetrap.bind('p a', () => {
+    window.location.href = `/projects/${currentProject}/activity`;
+  });
+
+  Mousetrap.bind('p i', () => {
+    window.location.href = `/projects/${currentProject}/issues`;
+  });
+
+  Mousetrap.bind('p n', () => {
+    window.location.href = `/projects/${currentProject}/news`;
+  });
+
+  Mousetrap.bind('p w', () => {
+    window.location.href = `/projects/${currentProject}/wiki`;
+  });
+
+  Mousetrap.bind('p s', () => {
+    window.location.href = `/projects/${currentProject}/settings`;
+  });
+
+  // new issue
+  Mousetrap.bind('n i', () => {
+    window.location.href = `/projects/${currentProject}/issues/new`;
+  });
+}
+
+// Issue-related items
+function registerIssueShortcuts() {
   // edit issue
   Mousetrap.bind('e', () => {
-    if (isIssue) {
-      $('.contextual a[href*="/edit"]').click();
-    }
+    $('.contextual a[href*="/edit"]').click();
   });
 
   // watch issue
   Mousetrap.bind('w', () => {
-    if (isIssue) {
-      $('.contextual a[href*="/watch"]').click();
-    }
+    $('.contextual a[href*="/watch"]').click();
   });
 
   // copy issue to new issue
   Mousetrap.bind('c', () => {
-    if (isIssue) {
-      console.log($('.contextual a[href*="/copy"]'));
-      $('.contextual a[href*="/copy"]').click();
-    }
+    $('.contextual a[href*="/copy"]').click();
   });
 
   // delete issue
   Mousetrap.bind('d', () => {
-    if (isIssue) {
-      $('.contextual a[data-method="delete"]').click();
-    }
+    $('.contextual a[data-method="delete"]').click();
   });
+}
 
-  // Formatting
+// Formatting Shortcuts
+function registerFormattingShortcuts() {
   // bold
   Mousetrap.bindGlobal('command+b', e => {
     if (isFormTextarea(e.target)) {
@@ -175,12 +161,18 @@ function insertStyleSnippet(el, snippet, positionShift = 0) {
   el.focus();
 }
 
-function init() {
-  registerShortcuts();
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   if (isRedmine()) {
-    init();
+    registerGlobalShortcuts();
+
+    if (isProject) {
+      registerProjectShortcuts();
+    }
+
+    if (isIssue) {
+      registerIssueShortcuts();
+    }
+
+    registerFormattingShortcuts();
   }
 });
