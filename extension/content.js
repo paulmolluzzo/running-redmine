@@ -40,7 +40,7 @@ function registerGlobalShortcuts() {
 
   // focus on search
   Mousetrap.bind('/', e => {
-    $('form[action="/search"] input[type="text"]').focus();
+    $('form[action*="/search"] input[type="text"]').focus();
     e.preventDefault();
   });
 
