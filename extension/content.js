@@ -103,7 +103,7 @@ function registerIssueShortcuts() {
   });
 }
 
-// Formatting Shortcuts
+// Formatting/Editing Issues Shortcuts
 function registerFormattingShortcuts() {
   // bold
   Mousetrap.bindGlobal('command+b', e => {
@@ -139,6 +139,14 @@ function registerFormattingShortcuts() {
       insertStyleSnippet(e.target, '<pre></pre>');
     }
   });
+
+  Mousetrap.bindGlobal('command+enter', () => {
+    $('form input[name="commit"]').click();
+  });
+
+  Mousetrap.bindGlobal('command+shift+enter', () => {
+    $('form input[name="continue"]').click();
+  });
 }
 
 function insertStyleSnippet(el, snippet, positionShift = 0) {
@@ -162,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (isRedmine()) {
     const project = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-')[1];
     const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
+    const isNewIssue = /\/issues\/new$/.test(window.location.pathname.replace(/\/$/, ''));
 
     registerGlobalShortcuts();
 
@@ -169,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
       registerProjectShortcuts(project);
     }
 
-    if (isIssue) {
+    if (isIssue || isNewIssue) {
       registerIssueShortcuts();
     }
 
