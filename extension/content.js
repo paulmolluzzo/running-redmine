@@ -95,7 +95,8 @@ function registerProjectShortcuts(currentProject) {
 // Issue-related items
 function registerIssueShortcuts() {
   // edit issue
-  Mousetrap.bind('e', () => {
+  Mousetrap.bind('e', e => {
+    e.preventDefault();
     $('.contextual a[href*="/edit"]').click();
   });
 
