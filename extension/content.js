@@ -145,6 +145,13 @@ function registerFormattingShortcuts() {
     }
   });
 
+  // inline code block
+  Mousetrap.bindGlobal('command+shift+2', e => {
+    if (isFormTextarea(e.target)) {
+      insertStyleSnippet(e.target, '@@');
+    }
+  });
+
   // pre block
   Mousetrap.bindGlobal('command+shift+p', e => {
     if (isFormTextarea(e.target)) {

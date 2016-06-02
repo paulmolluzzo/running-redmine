@@ -52,4 +52,5 @@ These shortcuts work in the description field of issues, or when editing the wik
 - Underline: <kbd>command</kbd>+<kbd>u</kbd>
 - Italics: <kbd>command</kbd>+<kbd>i</kbd>
 - External link: <kbd>command</kbd>+<kbd>k</kbd>
+- Inline Code: <kbd>command</kbd>+<kbd>shift</kbd>+<kbd>2</kbd> (<kbd>command</kbd>+<kbd>@</kbd>)
 - Pre block: <kbd>command</kbd>+<kbd>shift</kbd>+<kbd>p</kbd>
