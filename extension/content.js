@@ -161,7 +161,7 @@ function registerFormattingShortcuts() {
   });
 
   Mousetrap.bindGlobal('command+enter', () => {
-    $('form input[name="commit"]').click();
+    $('#issue-form input[name="commit"]').click();
   });
 
   Mousetrap.bindGlobal('command+shift+enter', () => {
