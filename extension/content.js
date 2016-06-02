@@ -191,7 +191,7 @@ function initQuickJump(projectList) {
     const projectLink = document.createElement('a');
     projectLink.id = `projectLink-${index}`;
     projectLink.href = el.value;
-    projectLink.innerHTML = `<p>(${index + 1}) ${el.innerHTML}</p>`;
+    projectLink.innerHTML = `<p><kbd>${index + 1}</kbd> ${el.innerHTML}</p>`;
     quickJumpContainer.appendChild(projectLink);
 
     // bind shortcuts for each project
