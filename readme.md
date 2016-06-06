@@ -2,6 +2,8 @@
 
 This is a Chrome extension that adds keyboard shortcuts to Redmine apps for quicker navigation.
 
+[Install from the Chrome Webstore](https://chrome.google.com/webstore/detail/bfegcalbohnfdcgnacofccdjkakjallk/) or [install manually](http://superuser.com/a/247654/6877).
+
 ## Keyboard Shortcuts
 
 ### Global Navigation
