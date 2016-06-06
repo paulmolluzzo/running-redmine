@@ -7,33 +7,33 @@ const isHidden = el => el.offsetParent === null;
 
 // Global navigation items
 // can work from anywhere in Redmine
-function registerGlobalShortcuts() {
+function registerGlobalShortcuts(basePath) {
   Mousetrap.bind('g h', () => {
-    window.location.href = '/';
+    $('#top-menu .pleasure a.home').click();
   });
 
   Mousetrap.bind('g m', () => {
-    window.location.href = '/my/page';
+    $('#top-menu .pleasure a[href*="/my/page"]').click();
   });
 
   Mousetrap.bind('g p', () => {
-    window.location.href = '/projects';
+    $('#top-menu .pleasure a[href*="/projects"]').click();
   });
 
   Mousetrap.bind('g e', () => {
-    window.location.href = '/people';
+    $('#top-menu .pleasure a[href*="/people"]').click();
   });
 
   Mousetrap.bind('g a', () => {
-    window.location.href = '/admin';
+    $('#top-menu .pleasure a[href*="/admin"]').click();
   });
 
   Mousetrap.bind('g /', () => {
-    window.location.href = 'http://www.redmine.org/guide';
+    $('#top-menu .pleasure a[href*="redmine.org/guide"]').click();
   });
 
   Mousetrap.bind('g i', () => {
-    window.location.href = '/issues';
+    window.location = `${basePath}issues`;
   });
 
   // focus on search
@@ -44,7 +44,7 @@ function registerGlobalShortcuts() {
 
   // create new project
   Mousetrap.bind('n p', () => {
-    window.location.href = `/projects/new`;
+    window.location = `${basePath}projects/new`;
   });
 
   // toggle quick show list for projects
@@ -62,34 +62,38 @@ function registerGlobalShortcuts() {
 
 // Project-related items
 // must be in a project
-function registerProjectShortcuts(currentProject) {
+function registerProjectShortcuts() {
   Mousetrap.bind('p h', () => {
-    window.location.href = `/projects/${currentProject}`;
+    $('#main-menu a.overview').click();
   });
 
   Mousetrap.bind('p a', () => {
-    window.location.href = `/projects/${currentProject}/activity`;
+    $('#main-menu a[href*="/activity"]').click();
   });
 
   Mousetrap.bind('p i', () => {
-    window.location.href = `/projects/${currentProject}/issues`;
+    $('#main-menu a[href*="/issues"]').click();
   });
 
   Mousetrap.bind('p n', () => {
-    window.location.href = `/projects/${currentProject}/news`;
+    $('#main-menu a[href*="/news"]').click();
   });
 
   Mousetrap.bind('p w', () => {
-    window.location.href = `/projects/${currentProject}/wiki`;
+    $('#main-menu a[href*="/wiki"]').click();
+  });
+
+  Mousetrap.bind('p f', () => {
+    $('#main-menu a[href*="/files"]').click();
   });
 
   Mousetrap.bind('p s', () => {
-    window.location.href = `/projects/${currentProject}/settings`;
+    $('#main-menu a[href*="/settings"]').click();
   });
 
   // new issue
   Mousetrap.bind('n i', () => {
-    window.location.href = `/projects/${currentProject}/issues/new`;
+    $('#main-menu a[href*="/issues/new"]').click();
   });
 }
 
@@ -223,18 +227,18 @@ function toggleQuickShow() {
 
 document.addEventListener('DOMContentLoaded', () => {
   if (isRedmine()) {
+    const basePath = $('#top-menu a.home').href;
     const isProject = /(project\-(\w+|\d+|\-)+)/.test($('body').className);
     const isIssue = /\/issues\/\d+$/.test(window.location.pathname.replace(/\/$/, ''));
     const isNewIssue = /\/issues\/new$/.test(window.location.pathname.replace(/\/$/, ''));
     const projectList = document.querySelectorAll('#project_quick_jump_box option[value*="/projects/"]');
 
-    registerGlobalShortcuts();
+    registerGlobalShortcuts(basePath);
 
     initQuickJump(projectList);
 
     if (isProject) {
-      const [, projectName] = /(project\-(\w+|\d+|\-)+)/.exec($('body').className)[0].split('project-');
-      registerProjectShortcuts(projectName);
+      registerProjectShortcuts();
     }
 
     if (isIssue || isNewIssue) {
