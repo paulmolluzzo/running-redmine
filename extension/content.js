@@ -3,6 +3,7 @@
 const $ = document.querySelector.bind(document);
 const isRedmine = () => $('meta[content="Redmine"]') || $('a[href*="http://www.redmine.org/"]') || $('a[href*="http://www.redmine.org/guide"]');
 const isFormTextarea = target => target.type === 'textarea' && /wiki-edit/.test(target.className);
+const isHidden = el =>  el.offsetParent === null;
 
 // Global navigation items
 // can work from anywhere in Redmine
@@ -161,7 +162,12 @@ function registerFormattingShortcuts() {
   });
 
   Mousetrap.bindGlobal('command+enter', () => {
-    $('#issue-form input[name="commit"]').click();
+    const inputs = document.querySelectorAll('form:not(#new-relation-form) input[name="commit"]');
+    Array.from(inputs).forEach((el, index) => {
+      if(!isHidden(el)) {
+        el.click();
+      }
+    });
   });
 
   Mousetrap.bindGlobal('command+shift+enter', () => {
